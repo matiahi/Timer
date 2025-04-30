@@ -54,6 +54,7 @@ public class SimpleTimer {
                         if (timeRemaining < 0) {
                             timer.stop();
                             label.setText("End!");
+                            Toolkit.getDefaultToolkit().beep();
                         }
                     }
                 });
