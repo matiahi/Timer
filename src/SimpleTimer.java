@@ -2,6 +2,9 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import javax.sound.sampled.*;
+import java.io.IOException;
 
 public class SimpleTimer {
 
@@ -34,6 +37,7 @@ public class SimpleTimer {
         frame.add(customLabel);
         frame.add(label);
 
+        // change the string to number and count down!
         startButton.addActionListener(e -> {
             try {
                 timeRemaining = Integer.parseInt(timeInput.getText()) * 60;
@@ -54,7 +58,7 @@ public class SimpleTimer {
                         if (timeRemaining < 0) {
                             timer.stop();
                             label.setText("End!");
-                            Toolkit.getDefaultToolkit().beep();
+                            playSound("sounds/mixkit-church-bell-loop-621.wav");
                         }
                     }
                 });
@@ -65,6 +69,21 @@ public class SimpleTimer {
         });
         frame.setVisible(true);
 
+    }
+
+    // play sounds when timer end!
+    public static void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            // TODO: handle exception
+            ex.printStackTrace();
+        }
     }
 
 }
